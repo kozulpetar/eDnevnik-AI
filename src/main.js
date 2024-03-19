@@ -11,6 +11,6 @@ const app = createApp(App)
 
 app.use(VueAxios, axios)
 app.use(router)
-app.use(cors())
+app.use(cors({ origin: true }));
 
 app.mount('#app')
