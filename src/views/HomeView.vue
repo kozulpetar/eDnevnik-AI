@@ -24,8 +24,10 @@ import Footer from "@/components/Footer.vue";
           <input
             class="form-control searchBar"
             type="text"
+            v-model="userQuery"
             placeholder="Postavite pitanje..."
             aria-label="Search"
+            @keydown.enter="askApi()"
           />
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -51,7 +53,7 @@ import Footer from "@/components/Footer.vue";
         <div class="col-12 col-md-5 col-sm-5 col-lg-3 col-xl-3 mt-3">
           <button
             class="btn text-light p-3 w-100 fs-4 mt-3 bgBtn"
-            @click="gotoMain()"
+            @click="askApi()"
           >
             Pošalji upit
           </button>
@@ -86,9 +88,26 @@ export default {
   data() {
     return {
       hide: true,
+      userQuery: '',
     };
   },
   methods: {
+    askApi() {
+      this.axios.post('https://api-ai.dnevnik.sum.ba/ask', {
+        'message_body': this.userQuery,
+        'nastavnik_id': '123',
+        'name': 'Nastavnik',
+      }).then((response) => {
+        console.log(response.data)
+
+        localStorage.setItem('userQuery', this.userQuery)
+        localStorage.setItem('userQueryResponse', response.data)
+
+        this.gotoMain()
+      }).catch(() => {
+        alert("Nesto je poslo krivo. Ovo zamjeniti za snackbar.")
+      })
+    },
     gotoMain() {
       let mainItemsHome = document.getElementById("mainItemsHome");
       mainItemsHome.classList.add('animateHome');

@@ -13,21 +13,24 @@ import Footer from "@/components/Footer.vue";
       >
         <div>
           <p>Pitanje:</p>
-          <p class="fw-bold">Kako unijeti bilješku za učenika?</p>
+          <p class="fw-bold" v-html="question"></p> <!-- Kako unijeti bilješku za učenika? -->
         </div>
         <div>
           <p>Odgovor:</p>
-          <p class="answer">
-            Na izborniku koji se nalazi na lijevoj strani odabrat ćemo opciju
-            Imenik. U otvorenom sučelju prikazani su svi učenici koji se nalaze
-            u tom odjeljenju. Nakon otvaranja podataka o učeniku odaberemo
-            sekciju Bilješke. Tu se nalazi popis svih bilješki koje je nastavnik
-            unio za određenog učenika. Za dodavanje nove bilješke potrebno je
-            kliknuti na gumb “Dodaj novu bilješku” gdje je potrebno odabrati
-            datum i unijeti sadržaj bilješke.Klikom na gumb “Spremi” bilješka je
-            uspješno spremljena. Unesena bilješka može se uređivati i brisati.
-            Također, ukoliko želite možete i pogledati video upute:
+          <p class="answer" v-html="response">
           </p>
+
+          <!--
+          Na izborniku koji se nalazi na lijevoj strani odabrat ćemo opciju
+          Imenik. U otvorenom sučelju prikazani su svi učenici koji se nalaze
+          u tom odjeljenju. Nakon otvaranja podataka o učeniku odaberemo
+          sekciju Bilješke. Tu se nalazi popis svih bilješki koje je nastavnik
+          unio za određenog učenika. Za dodavanje nove bilješke potrebno je
+          kliknuti na gumb “Dodaj novu bilješku” gdje je potrebno odabrati
+          datum i unijeti sadržaj bilješke.Klikom na gumb “Spremi” bilješka je
+          uspješno spremljena. Unesena bilješka može se uređivati i brisati.
+          Također, ukoliko želite možete i pogledati video upute:
+          -->
 
           <p class="text-danger">https://www.youtube.com/watch?v=gSUUDVs5d4A</p>
           <img src="../assets/images/video.png" alt="" />
@@ -70,7 +73,19 @@ export default {
   data() {
     return {
       showItems: false,
+      question: '',
+      response: ''
     };
+  },
+
+  mounted() {
+    this.showItems = false;
+    setTimeout(() => {
+      this.showItems = true;
+    }, 500);
+
+    this.question = localStorage.getItem('userQuery', 'Default value')
+    this.response = localStorage.getItem('userQueryResponse', 'Default value')
   },
 
   created() {
