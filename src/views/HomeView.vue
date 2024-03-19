@@ -44,16 +44,18 @@ import Footer from "@/components/Footer.vue";</script>
       <div
           class="questionItems mt-4 d-flex justify-content-between col-12 col-lg-8 col-xl-6 col-md-10 col-sm-12"
       >
-        <p>Kako unijeti ocjenu?</p>
-        <p>Gdje se nalazi raspored sati?</p>
-        <p>Ne radi prijava?</p>
+        <p @click="userQuery = 'Kako unijeti ocjenu?'">Kako unijeti ocjenu?</p>
+        <p @click="userQuery = 'Gdje se nalazi raspored sati?'">Gdje se nalazi raspored sati?</p>
+        <p @click="userQuery = 'Ne radi prijava?'">Ne radi prijava?</p>
       </div>
       <div class="col-12 col-md-5 col-sm-5 col-lg-3 col-xl-3 mt-3">
         <button
             class="btn text-light p-3 w-100 fs-4 mt-3 bgBtn"
             @click="askApi()"
+            :disabled="loading"
         >
           Pošalji upit
+          <div v-if="loading" class="spinner-border text-muted"></div>
         </button>
       </div>
       <p class="mt-2 problemsHead" style="color: #616161">
@@ -87,10 +89,15 @@ export default {
     return {
       hide: true,
       userQuery: '',
+      loading: false,
     };
   },
   methods: {
     askApi() {
+      if (this.loading) { return }
+
+      this.loading = true
+
       this.axios.post('https://api-ai.dnevnik.sum.ba/ask', {
         'message_body': this.userQuery,
         'nastavnik_id': '123',
@@ -108,6 +115,8 @@ export default {
         this.gotoMain()
       }).catch(() => {
         alert("Nesto je poslo krivo. Ovo zamjeniti za snackbar.")
+      }).finally(() => {
+        this.loading = false;
       })
     },
     gotoMain() {

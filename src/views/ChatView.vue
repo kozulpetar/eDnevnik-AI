@@ -32,6 +32,7 @@ import Footer from "@/components/Footer.vue";
           Također, ukoliko želite možete i pogledati video upute:
           -->
 
+          <!--
           <p class="text-danger">https://www.youtube.com/watch?v=gSUUDVs5d4A</p>
           <img src="../assets/images/video.png" alt="" />
           <div class="d-flex justify-content-end like">
@@ -61,6 +62,7 @@ import Footer from "@/components/Footer.vue";
               />
             </svg>
           </div>
+          -->
         </div>
       </div>
     </div>
